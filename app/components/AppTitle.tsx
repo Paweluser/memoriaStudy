@@ -1,6 +1,6 @@
 export default function AppTitle() {
 	return (
-		<h1 className="text-5xl md:text-7xl font-bold tracking-widest text-(--second-color) font-(family-name:--julius)">
+		<h1 className="text-5xl md:text-7xl font-bold tracking-widest font-(family-name:--julius)">
 			MEMOR
 			<span className="relative inline-flex flex-col items-center">
 				<svg

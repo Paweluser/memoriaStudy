@@ -1,11 +1,9 @@
 @import 'tailwindcss';
 
-:root {
+@theme {
 	--main-color: #ffffff;
 	--second-color: #171717;
 	--accent-color: #b89b5e;
 }
 
-body {
-	font-family: Arial, Helvetica, sans-serif;
-}
+
