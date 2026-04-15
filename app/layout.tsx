@@ -16,7 +16,7 @@ const juliusSansOne = Julius_Sans_One({
 
 export const metadata: Metadata = {
 	title: 'Memoria',
-	description: 'Aplikacja wspomagająca zarządzanie zarządzanie zakładem pogrzebowym',
+	description: 'Aplikacja wspomagająca zarządzanie zakładem pogrzebowym',
 };
 
 export default function RootLayout({

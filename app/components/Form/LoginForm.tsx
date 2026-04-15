@@ -2,7 +2,7 @@ export default function LoginForm() {
 	return (
 		<form className="space-y-6 mt-8">
 			<div className="space-y-2">
-				<label htmlFor="email" className="block text-sm font-medium">
+				<label htmlFor="email" className="block text-sm">
 					Adres e-mail
 				</label>
 				<input
@@ -15,7 +15,7 @@ export default function LoginForm() {
 				/>
 			</div>
 			<div className="space-y-2">
-				<label htmlFor="password" className="block text-sm font-medium">
+				<label htmlFor="password" className="block text-sm">
 					Hasło
 				</label>
 				<input

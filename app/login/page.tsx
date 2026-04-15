@@ -5,7 +5,7 @@ export default function LoginPage() {
 	return (
 		<main className="flex-1 flex items-center justify-center px-4">
 			<div className="w-full p-2 flex-col max-w-md">
-				<h2 className="text-center text-3xl">Logowanie</h2>
+				<h2 className="text-center text-3xl uppercase">Logowanie</h2>
 				<p className="text-center mt-2">
 					Wprowadź swoje dane, aby uzyskać dostęp do systemu
 				</p>
