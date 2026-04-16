@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Roboto, Julius_Sans_One } from 'next/font/google';
 import './globals.css';
+import { ReactNode } from 'react';
 
 const robotoSans = Roboto({
 	weight: '400',
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
 	children,
 }: Readonly<{
-	children: React.ReactNode;
+	children: ReactNode;
 }>) {
 	return (
 		<html
