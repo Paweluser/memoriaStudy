@@ -72,6 +72,7 @@ model pracownik {
   zespol                                                      zespol?             @relation(fields: [zespol_id], references: [id], onUpdate: NoAction)
   zlecenie_przewozu_zlecenie_przewozu_kierownik_idTopracownik zlecenie_przewozu[] @relation("zlecenie_przewozu_kierownik_idTopracownik")
   zlecenie_przewozu_zlecenie_przewozu_pracownik_idTopracownik zlecenie_przewozu[] @relation("zlecenie_przewozu_pracownik_idTopracownik")
+  session session[]
 }
 
 model zespol {
@@ -115,4 +116,11 @@ model zmarly {
   data_smierci   DateTime   @db.Date
   ubezpieczony   Boolean
   ceremonia      ceremonia?
+}
+
+model session {
+  id        String    @id
+  userId    Int
+  expiresAt DateTime
+  pracownik pracownik @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
