@@ -1,7 +1,7 @@
 'use server';
-
-import prisma from '@/app/lib/prisma';
-import bcrypt from 'bcryptjs';
+import { hashUserPassword } from '@/app/lib/hash';
+import { createUser } from '@/app/lib/users';
+import { Prisma } from '@/app/generated/prisma/client';
 
 export async function register(prevState, formData) {
 	const firstName = formData.get('firstName');
@@ -30,21 +30,22 @@ export async function register(prevState, formData) {
 		return { errors };
 	}
 
-	const hashedPassword = await bcrypt.hash(password, 12);
+	const hashedPassword = hashUserPassword(password);
 
 	try {
-		await prisma.pracownik.create({
-			data: {
-				imie: firstName,
-				nazwisko: lastName,
-				email: email,
-				haslo: hashedPassword,
-				rola: 'PRZEŁOŻONY',
-			},
-		});
-
+		await await createUser(firstName, lastName, email, hashedPassword);
 		return { success: true };
 	} catch (error) {
+		if (error instanceof Prisma.PrismaClientKnownRequestError) {
+			if (error.code === 'P2002') {
+				return {
+					errors: {
+						email:
+							'Konto z tym adresem e-mail już istnieje w systemie Memoria.',
+					},
+				};
+			}
+		}
 		console.error(error);
 		return { errors: { server: 'Błąd podczas zapisu do bazy danych.' } };
 	}
