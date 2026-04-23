@@ -1,12 +1,12 @@
 'use client';
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { register } from '../../../actions/auth-actions';
 
 export default function RegisterForm() {
-	const [formState, formAction] = useFormState(register, {});
+	const [formState, formAction] = useActionState(register, {});
 
 	return (
-		<form className="space-y-6 mt-8" action={formState}>
+		<form className="space-y-6 mt-8" action={formAction}>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 				<div className="space-y-2">
 					<label htmlFor="firstName" className="block text-sm">

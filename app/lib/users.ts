@@ -12,7 +12,7 @@ export async function createUser(
 			nazwisko: lastName,
 			email: email,
 			haslo: haslo,
-			rola: 'PRZEŁOŻONY',
+			rola: 'PRACOWNIK',
 		},
 	});
 }

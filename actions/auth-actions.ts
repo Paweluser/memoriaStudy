@@ -2,6 +2,8 @@
 import { hashUserPassword } from '@/app/lib/hash';
 import { createUser } from '@/app/lib/users';
 import { Prisma } from '@/app/generated/prisma/client';
+import { createAuthSession } from '@/app/lib/auth';
+import { redirect } from 'next/navigation';
 
 export async function register(prevState, formData) {
 	const firstName = formData.get('firstName');
@@ -31,10 +33,16 @@ export async function register(prevState, formData) {
 	}
 
 	const hashedPassword = hashUserPassword(password);
+	let newEmployeeId: number;
 
 	try {
-		await await createUser(firstName, lastName, email, hashedPassword);
-		return { success: true };
+		const newEmployee = await createUser(
+			firstName,
+			lastName,
+			email,
+			hashedPassword,
+		);
+		newEmployeeId = newEmployee.id;
 	} catch (error) {
 		if (error instanceof Prisma.PrismaClientKnownRequestError) {
 			if (error.code === 'P2002') {
@@ -49,4 +57,6 @@ export async function register(prevState, formData) {
 		console.error(error);
 		return { errors: { server: 'Błąd podczas zapisu do bazy danych.' } };
 	}
+	await createAuthSession(newEmployeeId);
+	redirect('/')
 }
