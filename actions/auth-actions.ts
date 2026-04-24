@@ -58,5 +58,5 @@ export async function register(prevState, formData) {
 		return { errors: { server: 'Błąd podczas zapisu do bazy danych.' } };
 	}
 	await createAuthSession(newEmployeeId);
-	redirect('/')
+	redirect('/dashboard')
 }
