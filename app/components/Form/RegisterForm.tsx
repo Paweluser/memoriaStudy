@@ -1,9 +1,11 @@
 'use client';
 import { useActionState } from 'react';
 import { register } from '../../../actions/authActions';
+import { AuthFormState } from '@/types/auth';
+import FormErrors from './FormErrors';
 
 export default function RegisterForm() {
-	const [formState, formAction] = useActionState(register, {});
+	const [formState, formAction] = useActionState(register, {} as AuthFormState);
 
 	return (
 		<form className="space-y-6 mt-8" action={formAction}>
@@ -62,13 +64,7 @@ export default function RegisterForm() {
 					className="w-full px-4 py-3 rounded-lg border"
 				/>
 			</div>
-			{formState.errors && (
-				<ul>
-					{Object.keys(formState.errors).map((error) => (
-						<li key={error}>{formState.errors[error]}</li>
-					))}
-				</ul>
-			)}
+			<FormErrors errors={formState.errors} />
 			<button
 				type="submit"
 				className="w-full flex justify-center py-3 px-4 rounded-lg shadow-sm font-medium transition-colors duration-300 bg-(--second-color) text-(--main-color) hover:bg-(--accent-color) cursor-pointer">

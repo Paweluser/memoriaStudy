@@ -6,7 +6,10 @@ import { createAuthSession } from '@/app/lib/auth';
 import { redirect } from 'next/navigation';
 import { AuthErrors, AuthFormState } from '@/types/auth';
 
-export async function register(prevState: AuthFormState, formData: FormData) {
+export async function register(
+	prevState: AuthFormState,
+	formData: FormData,
+): Promise<AuthFormState> {
 	const firstName = formData.get('firstName') as string;
 	const lastName = formData.get('lastName') as string;
 	const email = formData.get('email') as string;
@@ -62,7 +65,10 @@ export async function register(prevState: AuthFormState, formData: FormData) {
 	redirect('/dashboard');
 }
 
-export async function login(prevState: AuthFormState, formData: FormData) {
+export async function login(
+	prevState: AuthFormState,
+	formData: FormData,
+): Promise<AuthFormState> {
 	const email = formData.get('email') as string;
 	const password = formData.get('password') as string;
 
