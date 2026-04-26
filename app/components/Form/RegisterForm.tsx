@@ -1,6 +1,6 @@
 'use client';
 import { useActionState } from 'react';
-import { register } from '../../../actions/auth-actions';
+import { register } from '../../../actions/authActions';
 
 export default function RegisterForm() {
 	const [formState, formAction] = useActionState(register, {});

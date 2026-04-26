@@ -16,3 +16,9 @@ export async function createUser(
 		},
 	});
 }
+
+export async function getUserByEmail(email: string) {
+	return await prisma.pracownik.findUnique({
+		where: { email: email },
+	});
+}

@@ -1,17 +1,18 @@
 'use server';
-import { hashUserPassword } from '@/app/lib/hash';
-import { createUser } from '@/app/lib/users';
+import { hashUserPassword, verifyPassword } from '@/app/lib/hash';
+import { createUser, getUserByEmail } from '@/app/lib/users';
 import { Prisma } from '@/app/generated/prisma/client';
 import { createAuthSession } from '@/app/lib/auth';
 import { redirect } from 'next/navigation';
+import { AuthErrors, AuthFormState } from '@/types/auth';
 
-export async function register(prevState, formData) {
-	const firstName = formData.get('firstName');
-	const lastName = formData.get('lastName');
-	const email = formData.get('email');
-	const password = formData.get('password');
+export async function register(prevState: AuthFormState, formData: FormData) {
+	const firstName = formData.get('firstName') as string;
+	const lastName = formData.get('lastName') as string;
+	const email = formData.get('email') as string;
+	const password = formData.get('password') as string;
 
-	const errors = {};
+	const errors: AuthErrors = {};
 
 	if (!firstName || firstName.trim() === '') {
 		errors.firstName = 'Imię jest wymagane.';
@@ -58,5 +59,33 @@ export async function register(prevState, formData) {
 		return { errors: { server: 'Błąd podczas zapisu do bazy danych.' } };
 	}
 	await createAuthSession(newEmployeeId);
-	redirect('/dashboard')
+	redirect('/dashboard');
+}
+
+export async function login(prevState: AuthFormState, formData: FormData) {
+	const email = formData.get('email') as string;
+	const password = formData.get('password') as string;
+
+	const existingUser = await getUserByEmail(email);
+
+	if (!existingUser) {
+		return {
+			errors: {
+				email: 'Nie znaleziono takiego użytkownika, spróbuj ponownie.',
+			},
+		};
+	}
+
+	const isValidPassword = verifyPassword(existingUser.haslo, password);
+
+	if (!isValidPassword) {
+		return {
+			errors: {
+				password: 'Nie znaleziono takiego użytkownika, spróbuj ponownie.',
+			},
+		};
+	}
+
+	await createAuthSession(existingUser.id);
+	redirect('/dashboard');
 }
