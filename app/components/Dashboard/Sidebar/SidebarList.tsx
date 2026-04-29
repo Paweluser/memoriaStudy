@@ -1,0 +1,27 @@
+import { menuGroups } from '@/app/constants/sidebar';
+import SidebarLink from './SidebarLink';
+
+export default function SidebarList() {
+	return (
+		<nav className="flex-1 p-4 overflow-y-auto">
+			<ul className="space-y-6">
+				{menuGroups.map((group) => (
+					<li key={group.title}>
+						<div className="font-semibold uppercase mb-2 px-2">
+							{group.title}
+						</div>
+						<ul className="space-y-1">
+							{group.links.map((link) => (
+								<SidebarLink
+									key={link.href}
+									href={link.href}
+									label={link.label}
+								/>
+							))}
+						</ul>
+					</li>
+				))}
+			</ul>
+		</nav>
+	);
+}

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ReactNode } from 'react';
 
-interface AppLinkProps {
+type AppLinkProps = {
 	href: string;
 	children: ReactNode;
 }

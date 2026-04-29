@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ReactNode } from 'react';
 
-interface AuthWrapperProps {
+type AuthWrapperProps = {
 	title: string;
 	description: string;
 	children: ReactNode; 
