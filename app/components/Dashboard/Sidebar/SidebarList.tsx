@@ -16,6 +16,7 @@ export default function SidebarList() {
 									key={link.href}
 									href={link.href}
 									label={link.label}
+									icon={<link.icon className='w-5 h-5' />}
 								/>
 							))}
 						</ul>

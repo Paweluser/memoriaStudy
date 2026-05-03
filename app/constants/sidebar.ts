@@ -1,19 +1,64 @@
 import { MenuGroup } from '@/types/sidebar';
+import {
+	Home,
+	PlusCircle,
+	Briefcase,
+	BookOpen,
+	Users,
+	UsersRound,
+	BarChart2,
+	Settings,
+	FileText,
+} from 'lucide-react';
 
 export const menuGroups: MenuGroup[] = [
 	{
 		title: 'Dashboard',
-		links: [{ label: 'Strona główna', href: '/dashboard' }],
+		links: [{ label: 'Strona główna', href: '/dashboard', icon: Home }],
 	},
 	{
 		title: 'Ceremonia',
 		links: [
-			{ label: 'Dodaj pogrzeb', href: '/dashboard/pogrzeb/nowy' },
-			{ label: 'Historia ceremonii', href: '/dashboard/historia' },
+			{
+				label: 'Dodaj pogrzeb',
+				href: '/dashboard/funerals/new',
+				icon: PlusCircle,
+			},
+			{ label: 'Zleć przewóz', href: '/dashboard/transports', icon: Briefcase },
+			{
+				label: 'Historia ceremonii',
+				href: '/dashboard/funerals/history',
+				icon: BookOpen,
+			},
 		],
 	},
 	{
 		title: 'Personel',
-		links: [{ label: 'Pracownicy', href: '/dashboard/pracownicy' }],
+		links: [
+			{ label: 'Pracownicy', href: '/dashboard/employees', icon: Users },
+			{ label: 'Zespoły', href: '/dashboard/teams', icon: UsersRound },
+		],
+	},
+	{
+		title: 'Analityka',
+		links: [
+			{
+				label: 'Statystyki',
+				href: '/dashboard/analytics/statistics',
+				icon: BarChart2,
+			},
+		],
+	},
+	{
+		title: 'Finanse',
+		links: [
+			{ label: 'Faktury', href: '/dashboard/finance/invoices', icon: FileText },
+		],
+	},
+	{
+		title: 'Inne',
+		links: [
+			{ label: 'Ustawienia', href: '/dashboard/settings', icon: Settings },
+		],
 	},
 ];
