@@ -1,8 +1,8 @@
 'use server';
-import { hashUserPassword, verifyPassword } from '@/app/lib/hash';
-import { createUser, getUserByEmail } from '@/app/lib/users';
+import { hashUserPassword, verifyPassword } from '@/lib/hash';
+import { createUser, getUserByEmail } from '@/lib/users';
 import { Prisma } from '@/app/generated/prisma/client';
-import { createAuthSession } from '@/app/lib/auth';
+import { createAuthSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { AuthErrors, AuthFormState } from '@/types/auth';
 

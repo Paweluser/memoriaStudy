@@ -27,7 +27,7 @@ export const menuGroups: MenuGroup[] = [
 			{ label: 'Zleć przewóz', href: '/dashboard/transports', icon: Briefcase },
 			{
 				label: 'Historia ceremonii',
-				href: '/dashboard/funerals/history',
+				href: '/dashboard/funerals',
 				icon: BookOpen,
 			},
 		],

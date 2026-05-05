@@ -1,5 +1,5 @@
 import { PrismaAdapter } from '@lucia-auth/adapter-prisma';
-import prisma from '../lib/prisma';
+import prisma from './prisma';
 import { Lucia } from 'lucia';
 import { cookies } from 'next/headers';
 
