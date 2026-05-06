@@ -3,13 +3,15 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ceremonySchema, CeremonyFormValues } from '@/lib/validations/funeral';
+import InputForm from './InputForm';
+import AppButton from '../AppButton';
 
-type Step3Props = {
+type CeremonyFormProps = {
 	onNext: (data: CeremonyFormValues) => void;
 	onBack: () => void;
 };
 
-export default function CeremonyForm({ onNext, onBack }: Step3Props) {
+export default function CeremonyForm({ onNext, onBack }: CeremonyFormProps) {
 	const {
 		register,
 		handleSubmit,
@@ -25,90 +27,60 @@ export default function CeremonyForm({ onNext, onBack }: Step3Props) {
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
-			className="space-y-6 bg-white p-6 rounded-lg shadow-sm border">
-			<h2 className="text-xl font-semibold text-gray-800 border-b pb-2">
+			className="space-y-6 p-6 rounded-lg shadow-sm border">
+			<h2 className="text-xl font-semibold border-b pb-2">
 				Krok 3: Szczegóły Ceremonii
 			</h2>
 
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-				<div>
-					<label className="block text-sm font-medium text-gray-700 mb-1">
-						Miejscowość ceremonii *
-					</label>
-					<input
-						{...register('miejscowosc')}
-						className="w-full border rounded-md p-2 focus:ring-(--main-color) focus:border-(--main-color)"
-						placeholder="np. Warszawa"
-					/>
-					{errors.miejscowosc && (
-						<p className="text-red-500 text-sm mt-1">
-							{errors.miejscowosc.message}
-						</p>
-					)}
-				</div>
+				<InputForm
+					label="Miejscowość ceremonii *"
+					name="miejscowosc"
+					register={register}
+					error={errors.miejscowosc}
+					placeholder="np. Warszawa"
+				/>
 
-				<div>
-					<label className="block text-sm font-medium text-gray-700 mb-1">
-						Data pogrzebu *
-					</label>
-					<input
-						type="date"
-						{...register('data_pogrzebu')}
-						className="w-full border rounded-md p-2 focus:ring-(--main-color) focus:border-(--main-color)"
-					/>
-					{errors.data_pogrzebu && (
-						<p className="text-red-500 text-sm mt-1">
-							{errors.data_pogrzebu.message}
-						</p>
-					)}
-				</div>
+				<InputForm
+					label="Data pogrzebu *"
+					name="data_pogrzebu"
+					type="date"
+					register={register}
+					error={errors.data_pogrzebu}
+				/>
 
 				<div className="md:col-span-2 pt-4 border-t mt-2">
-					<h3 className="text-md font-medium text-gray-800 mb-3">
-						Harmonogram czasowy
-					</h3>
+					<h3 className="text-md font-medium mb-3">Harmonogram czasowy</h3>
 				</div>
 
-				<div>
-					<label className="block text-sm font-medium text-gray-700 mb-1">
-						Godzina zbiórki
-					</label>
-					<input
-						type="time"
-						{...register('godzina_zbiorki')}
-						className="w-full border rounded-md p-2 focus:ring-(--main-color) focus:border-(--main-color)"
-					/>
-				</div>
+				<InputForm
+					label="Godzina zbiórki"
+					name="godzina_zbiorki"
+					type="time"
+					register={register}
+					error={errors.godzina_zbiorki}
+				/>
+				<InputForm
+					label="Godzina wniesienia"
+					name="godzina_wniesienia"
+					type="time"
+					register={register}
+					error={errors.godzina_wniesienia}
+				/>
+				<InputForm
+					label="Godzina mszy / ceremonii"
+					name="godzina_pogrzebu"
+					type="time"
+					register={register}
+					error={errors.godzina_pogrzebu}
+					className="md:col-span-2"
+				/>
 
-				<div>
-					<label className="block text-sm font-medium text-gray-700 mb-1">
-						Godzina wniesienia
-					</label>
-					<input
-						type="time"
-						{...register('godzina_wniesienia')}
-						className="w-full border rounded-md p-2 focus:ring-(--main-color) focus:border-(--main-color)"
-					/>
-				</div>
-
-				<div className="md:col-span-2">
-					<label className="block text-sm font-medium text-gray-700 mb-1">
-						Godzina mszy / ceremonii
-					</label>
-					<input
-						type="time"
-						{...register('godzina_pogrzebu')}
-						className="w-full border rounded-md p-2 focus:ring-(--main-color) focus:border-(--main-color)"
-					/>
-				</div>
 				<div className="md:col-span-2 pt-4 border-t mt-2">
-					<h3 className="text-md font-medium text-gray-800 mb-3">
-						Szczegóły pochówku
-					</h3>
+					<h3 className="text-md font-medium mb-3">Szczegóły pochówku</h3>
 				</div>
-
 				<div className="md:col-span-2">
-					<label className="block text-sm font-medium text-gray-700 mb-2">
+					<label className="block text-sm font-medium mb-2">
 						Rodzaj pochówku *
 					</label>
 					<div className="flex gap-6">
@@ -132,37 +104,29 @@ export default function CeremonyForm({ onNext, onBack }: Step3Props) {
 						</label>
 					</div>
 					{errors.rodzaj_pochowku && (
-						<p className="text-red-500 text-sm mt-1">
+						<p className="text-(--error-color) text-sm mt-1">
 							{errors.rodzaj_pochowku.message}
 						</p>
 					)}
 				</div>
-
 				<div className="md:col-span-2">
-					<label className="block text-sm font-medium text-gray-700 mb-1">
+					<label className="block text-sm font-medium mb-1">
 						Uwagi dodatkowe
 					</label>
 					<textarea
 						{...register('uwagi')}
 						rows={3}
-						className="w-full border rounded-md p-2 focus:ring-(--main-color) focus:border-(--main-color)"
+						className="w-full border rounded-md p-2"
 						placeholder="Np. oprawa muzyczna, wieniec od firmy..."
 					/>
 				</div>
 			</div>
 
 			<div className="flex justify-between pt-6 mt-4 border-t">
-				<button
-					type="button"
-					onClick={onBack}
-					className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
+				<AppButton type="button" onClick={onBack}>
 					Wstecz
-				</button>
-				<button
-					type="submit"
-					className="bg-black text-white px-6 py-2 rounded-md">
-					Zakończ i Podsumuj
-				</button>
+				</AppButton>
+				<AppButton type="submit">Zakończ i Podsumuj</AppButton>
 			</div>
 		</form>
 	);
