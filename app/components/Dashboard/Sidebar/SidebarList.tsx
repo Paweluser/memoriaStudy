@@ -1,7 +1,11 @@
 import { menuGroups } from '@/app/constants/sidebar';
 import SidebarLink from './SidebarLink';
 
-export default function SidebarList() {
+type SidebarListProps = {
+	onClose?: () => void;
+};
+
+export default function SidebarList({ onClose }: SidebarListProps) {
 	return (
 		<nav className="flex-1 p-4 overflow-y-auto">
 			<ul className="space-y-6">
@@ -16,7 +20,8 @@ export default function SidebarList() {
 									key={link.href}
 									href={link.href}
 									label={link.label}
-									icon={<link.icon className='w-5 h-5' />}
+									icon={<link.icon className="w-5 h-5" />}
+									onClick={onClose}
 								/>
 							))}
 						</ul>

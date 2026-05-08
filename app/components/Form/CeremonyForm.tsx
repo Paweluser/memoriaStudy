@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ceremonySchema, CeremonyFormValues } from '@/lib/validations/funeral';
 import InputForm from './InputForm';
-import AppButton from '../AppButton';
+import AppButton from '../Dashboard/AppButton';
 
 type CeremonyFormProps = {
 	onNext: (data: CeremonyFormValues) => void;

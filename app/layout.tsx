@@ -30,7 +30,9 @@ export default function RootLayout({
 			lang="en"
 			className={`${robotoSans.className} ${juliusSansOne.variable} h-full antialiased`}
 			suppressHydrationWarning>
-			<body className="min-h-full flex flex-col text-(--second-color) font-(family-name:--roboto) bg-(--main-color)">
+			<body
+				className="min-h-full flex flex-col text-(--second-color) font-(family-name:--roboto) bg-(--main-color)"
+				suppressHydrationWarning>
 				{children}
 			</body>
 		</html>

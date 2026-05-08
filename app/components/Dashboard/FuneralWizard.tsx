@@ -2,15 +2,16 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import DeceasedForm from './Form/DeceasedForm';
-import ClientForm from './Form/ClientForm';
-import CeremonyForm from './Form/CeremonyForm';
+import DeceasedForm from '../Form/DeceasedForm';
+import ClientForm from '../Form/ClientForm';
+import CeremonyForm from '../Form/CeremonyForm';
 import {
 	DeceasedFormValues,
 	ClientFormValues,
 	CeremonyFormValues,
 } from '@/lib/validations/funeral';
 import { createFuneralTransaction } from '@/actions/funeralActions';
+import ProgressBar from './ProgressBar';
 
 type WizardState = {
 	deceased?: DeceasedFormValues;
@@ -52,25 +53,10 @@ export default function FuneralWizard() {
 
 	return (
 		<>
-			<div className="mb-8">
-				<div className="flex justify-between text-sm font-medium mb-2 px-1">
-					<span className={step >= 1 ? 'text-black font-bold' : ''}>
-						1. Zmarły
-					</span>
-					<span className={step >= 2 ? 'text-black font-bold' : ''}>
-						2. Zleceniodawca
-					</span>
-					<span className={step >= 3 ? 'text-black font-bold' : ''}>
-						3. Ceremonia
-					</span>
-				</div>
-				<div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-					<div
-						className="h-full bg-black transition-all duration-500 ease-in-out"
-						style={{ width: `${(step / 3) * 100}%` }}
-					/>
-				</div>
-			</div>
+			<ProgressBar
+				currentStep={step}
+				steps={['Zmarły', 'Zleceniodawca', 'Ceremonia']}
+			/>
 			<div className="max-w-3xl mx-auto py-4">
 				{step === 1 && <DeceasedForm onNext={handleDeceasedStep} />}
 				{step === 2 && (

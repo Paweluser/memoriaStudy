@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { clientSchema, ClientFormValues } from '@/lib/validations/funeral';
 import InputForm from './InputForm';
-import AppButton from '../AppButton';
+import AppButton from '../Dashboard/AppButton';
 
 type ClientFormProps = {
 	onNext: (data: ClientFormValues) => void;
@@ -111,19 +111,12 @@ export default function ClientForm({ onNext, onBack }: ClientFormProps) {
 			</div>
 
 			<div className="flex justify-between pt-6 mt-4 border-t">
-				<AppButton
-                    type="button" 
-                    onClick={onBack}
-                    className="shrink-0"
-                >
-                    Wstecz
-                </AppButton>
-                <AppButton 
-                    type="submit" 
-                    className="shrink-0"
-                >
-                    Dalej
-                </AppButton>
+				<AppButton type="button" onClick={onBack} className="shrink-0">
+					Wstecz
+				</AppButton>
+				<AppButton type="submit" className="shrink-0">
+					Dalej
+				</AppButton>
 			</div>
 		</form>
 	);

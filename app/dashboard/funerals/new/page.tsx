@@ -1,4 +1,4 @@
-import FuneralWizard from '@/app/components/FuneralWizard';
+import FuneralWizard from '@/app/components/Dashboard/FuneralWizard';
 
 export default function NewFuneralPage() {
 	return (

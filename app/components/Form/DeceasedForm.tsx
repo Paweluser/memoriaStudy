@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { deceasedSchema, DeceasedFormValues } from '@/lib/validations/funeral';
 import InputForm from './InputForm';
-import AppButton from '../AppButton';
+import AppButton from '../Dashboard/AppButton';
 
 type DeceasedFormProps = {
 	onNext: (data: DeceasedFormValues) => void;
@@ -82,17 +82,13 @@ export default function DeceasedForm({ onNext }: DeceasedFormProps) {
 						className="w-4 h-4 text-(--main-color) rounded"
 						id="ubezpieczony"
 					/>
-					<label
-						htmlFor="ubezpieczony"
-						className="text-sm font-medium">
+					<label htmlFor="ubezpieczony" className="text-sm font-medium">
 						Osoba ubezpieczona
 					</label>
 				</div>
 			</div>
 			<div className="flex justify-end pt-4">
-				<AppButton type="submit">
-                    Dalej
-                </AppButton>
+				<AppButton type="submit">Dalej</AppButton>
 			</div>
 		</form>
 	);

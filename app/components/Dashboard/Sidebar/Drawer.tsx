@@ -32,7 +32,7 @@ export default function Drawer({ isOpen, onClose }: DrawerProps) {
                     </button>
                 </div>
                 <div className="flex-1 overflow-y-auto ">
-                    <SidebarList />
+                    <SidebarList onClose={onClose} />
                 </div>
             </div>
         </>

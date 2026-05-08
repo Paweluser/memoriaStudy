@@ -14,7 +14,7 @@ import {
 export const menuGroups: MenuGroup[] = [
 	{
 		title: 'Dashboard',
-		links: [{ label: 'Strona główna', href: '/dashboard', icon: Home }],
+		links: [{ label: 'Panel główny', href: '/dashboard', icon: Home }],
 	},
 	{
 		title: 'Ceremonia',
@@ -27,7 +27,7 @@ export const menuGroups: MenuGroup[] = [
 			{ label: 'Dodaj przewóz', href: '/dashboard/transports', icon: Briefcase },
 			{
 				label: 'Historia',
-				href: '/dashboard/funerals',
+				href: '/dashboard/funerals/history',
 				icon: BookOpen,
 			},
 		],
