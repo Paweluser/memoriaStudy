@@ -22,3 +22,14 @@ export async function getUserByEmail(email: string) {
 		where: { email: email },
 	});
 }
+
+export async function getEmployees() {
+  return await prisma.pracownik.findMany({
+    include: {
+      zespol: true, 
+    },
+    orderBy: {
+      nazwisko: 'asc', 
+    },
+  });
+}

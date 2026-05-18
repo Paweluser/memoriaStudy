@@ -45,7 +45,7 @@ export default function FuneralWizard() {
 		const result = await createFuneralTransaction(finalData);
 		if (result.success) {
 			alert('Sukces! ' + result.message);
-			router.push('/dashboard/funerals');
+			router.push('/dashboard/history');
 		} else {
 			alert('Błąd: ' + result.message);
 		}
