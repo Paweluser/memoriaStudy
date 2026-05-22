@@ -1,26 +1,47 @@
 'use client';
 
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useEffect } from 'react';
+import { useForm, SubmitHandler, useWatch } from 'react-hook-form'; 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { deceasedSchema, DeceasedFormValues } from '@/lib/validations/funeral';
+import { getBirthDateFromPesel } from '@/utils/pesel';
 import InputForm from './InputForm';
 import AppButton from '../Dashboard/AppButton';
 
 type DeceasedFormProps = {
-	onNext: (data: DeceasedFormValues) => void;
+    onNext: (data: DeceasedFormValues) => void;
 };
 
 export default function DeceasedForm({ onNext }: DeceasedFormProps) {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<DeceasedFormValues>({
-		resolver: zodResolver(deceasedSchema),
-		defaultValues: {
-			ubezpieczony: false,
-		},
-	});
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        control, 
+        formState: { errors },
+    } = useForm<DeceasedFormValues>({
+        resolver: zodResolver(deceasedSchema),
+        defaultValues: {
+            ubezpieczony: false,
+        },
+    });
+
+    const peselValue = useWatch({
+        control,
+        name: 'pesel',
+    });
+
+	useEffect(() => {
+		if (peselValue && peselValue.length === 11) {
+			const birthDate = getBirthDateFromPesel(peselValue);
+			if (birthDate) {
+				setValue('data_urodzenia', birthDate, {
+					shouldValidate: true,
+					shouldDirty: true,
+				});
+			}
+		}
+	}, [peselValue, setValue]);
 
 	const handleFormSubmit: SubmitHandler<DeceasedFormValues> = (data) => {
 		onNext(data);
@@ -33,7 +54,6 @@ export default function DeceasedForm({ onNext }: DeceasedFormProps) {
 			<h2 className="text-xl font-semibold border-b pb-2">
 				Krok 1: Dane osoby zmarłej
 			</h2>
-
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 				<InputForm
 					label="Imię"
@@ -42,7 +62,6 @@ export default function DeceasedForm({ onNext }: DeceasedFormProps) {
 					error={errors.imie}
 					placeholder="Jan"
 				/>
-
 				<InputForm
 					label="Nazwisko"
 					name="nazwisko"
@@ -50,7 +69,6 @@ export default function DeceasedForm({ onNext }: DeceasedFormProps) {
 					error={errors.nazwisko}
 					placeholder="Kowalski"
 				/>
-
 				<InputForm
 					label="PESEL"
 					name="pesel"
@@ -59,7 +77,6 @@ export default function DeceasedForm({ onNext }: DeceasedFormProps) {
 					placeholder="00000000000"
 					className="md:col-span-2"
 				/>
-
 				<InputForm
 					label="Data urodzenia"
 					name="data_urodzenia"
@@ -67,7 +84,6 @@ export default function DeceasedForm({ onNext }: DeceasedFormProps) {
 					register={register}
 					error={errors.data_urodzenia}
 				/>
-
 				<InputForm
 					label="Data śmierci"
 					name="data_smierci"

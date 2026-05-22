@@ -1,3 +1,4 @@
+import { getBirthDateFromPesel } from '@/utils/pesel';
 import { z } from 'zod';
 
 export const deceasedSchema = z.object({
@@ -7,6 +8,17 @@ export const deceasedSchema = z.object({
     data_urodzenia: z.string().min(1, { message: 'Data urodzenia jest wymagana.' }),
     data_smierci: z.string().min(1, { message: 'Data śmierci jest wymagana.' }),
     ubezpieczony: z.boolean(),
+}).superRefine((data, ctx) => {
+    if (data.pesel && data.pesel.length === 11) {
+        const expectedDate = getBirthDateFromPesel(data.pesel);
+        if (expectedDate && data.data_urodzenia !== expectedDate) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: 'Data urodzenia nie zgadza się z numerem PESEL.',
+                path: ['data_urodzenia'],
+            });
+        }
+    }
 });
 
 export const clientSchema = z.object({
