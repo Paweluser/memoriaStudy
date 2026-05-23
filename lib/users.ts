@@ -33,3 +33,19 @@ export async function getEmployees() {
     },
   });
 }
+
+export async function getOperationalEmployees() {
+    return await prisma.pracownik.findMany({
+        where: {
+            rola: 'PRACOWNIK',
+        },
+        select: {
+            id: true,
+            imie: true,
+            nazwisko: true,
+        },
+        orderBy: {
+            nazwisko: 'asc',
+        }
+    });
+}

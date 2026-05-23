@@ -1,4 +1,5 @@
 import EmployeesTable from '@/app/components/Dashboard/Employees/EmployeesTable';
+import PageHeader from '@/app/components/Dashboard/PageHeader';
 import { getEmployees } from '@/lib/users';
 
 export default async function EmployeesPage() {
@@ -6,12 +7,10 @@ export default async function EmployeesPage() {
 
 	return (
 		<div className="p-4 md:p-6 w-full max-w-7xl mx-auto">
-			<div className="mb-8 text-center">
-				<h1 className="text-2xl md:text-3xl font-(family-name:--julius) font-bold uppercase tracking-wider">
-					PRACOWNICY
-				</h1>
-				<p className="mt-2">Lista wszystkich pracowników zakładu pogrzebowego</p>
-			</div>
+			<PageHeader
+				title="PRACOWNICY"
+				description="Lista wszystkich pracowników zakładu pogrzebowego"
+			/>
 			<EmployeesTable data={employees} />
 		</div>
 	);
