@@ -1,5 +1,6 @@
 'use client';
 
+import { createTransport } from '@/actions/transportActions';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -8,6 +9,7 @@ import {
 } from '@/lib/validations/transport';
 import InputForm from './InputForm';
 import AppButton from '../Dashboard/AppButton';
+import { useRouter } from 'next/navigation';
 
 type Employee = {
     id: number;
@@ -20,6 +22,8 @@ type TransportFormProps = {
 };
 
 export default function TransportForm({ employees }: TransportFormProps) {
+    const router = useRouter(); 
+
     const {
         register,
         handleSubmit,
@@ -29,7 +33,19 @@ export default function TransportForm({ employees }: TransportFormProps) {
     });
 
     const onSubmit: SubmitHandler<TransportFormValues> = async (data) => {
-        console.log('Dane do wysłania:', data);
+        try {
+            const result = await createTransport(data);
+
+            if (result.success) {
+                alert(result.message);
+                router.push('/dashboard/funerals/history'); 
+            } else {
+                alert(result.message);
+            }
+        } catch (error) {
+            console.error('Błąd sieci/klienta:', error);
+            alert('Wystąpił problem z połączeniem.');
+        }
     };
 
     return (
