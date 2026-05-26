@@ -1,16 +1,8 @@
 'use client';
 
+import { CeremonyWithRelations } from '@/types/history';
 import { Eye } from 'lucide-react';
 import Link from 'next/link';
-
-type CeremonyWithRelations = {
-	id: number;
-	miejscowosc: string;
-	data_pogrzebu: Date;
-	rodzaj_pochowku: string;
-	zmarly: { imie: string; nazwisko: string } | null;
-	zleceniodawca: { imie: string; nazwisko: string } | null;
-};
 
 export default function CeremoniesTable({
 	data,
