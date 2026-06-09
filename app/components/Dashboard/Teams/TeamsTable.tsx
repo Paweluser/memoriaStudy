@@ -25,7 +25,7 @@ export default function TeamsTable({ data }: { data: TeamWithCount[] }) {
 					{data.map((team) => (
 						<tr
 							key={team.id}
-							className="border-b last:border-0 hover:bg-gray-50 transition-colors">
+							className="border-b last:border-0">
 							<td className="p-4 font-bold">#{team.id}</td>
 							<td className="p-4 font-medium">
 								{team.nazwa_zespolu || emptyData}
