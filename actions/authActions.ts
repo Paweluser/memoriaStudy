@@ -2,9 +2,12 @@
 import { hashUserPassword, verifyPassword } from '@/lib/hash';
 import { createUser, getUserByEmail } from '@/lib/users';
 import { Prisma } from '@/app/generated/prisma/client';
-import { createAuthSession } from '@/lib/auth';
+import prisma from '@/lib/prisma';
+import { createAuthSession, lucia, verifyAuth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { AuthErrors, AuthFormState } from '@/types/auth';
+import { cookies } from 'next/headers';
+import { PasswordFormValues, passwordSchema } from '@/lib/validations/settings';
 
 export async function register(
 	prevState: AuthFormState,
@@ -94,4 +97,60 @@ export async function login(
 
 	await createAuthSession(existingUser.id);
 	redirect('/dashboard');
+}
+
+export async function logout() {
+    const { session } = await verifyAuth();
+    
+    if (!session) {
+        redirect('/login');
+    }
+
+    await lucia.invalidateSession(session.id);
+
+    const sessionCookie = lucia.createBlankSessionCookie();
+    const cookieStore = await cookies();
+    cookieStore.set(
+        sessionCookie.name,
+        sessionCookie.value,
+        sessionCookie.attributes
+    );
+
+    redirect('/login');
+}
+
+export async function changePassword(userId: number, data: PasswordFormValues) {
+    const parsed = passwordSchema.safeParse(data);
+
+    if (!parsed.success) {
+        return { success: false, message: 'Nieprawidłowe dane formularza.' };
+    }
+
+    try {
+        const user = await prisma.pracownik.findUnique({
+            where: { id: userId }
+        });
+
+        if (!user) {
+            return { success: false, message: 'Nie znaleziono użytkownika.' };
+        }
+
+        const isPasswordValid = verifyPassword(user.haslo, parsed.data.currentPassword);
+
+        if (!isPasswordValid) {
+            return { success: false, message: 'Obecne hasło jest nieprawidłowe.' };
+        }
+
+        const newHashedPassword = hashUserPassword(parsed.data.newPassword);
+
+        await prisma.pracownik.update({
+            where: { id: userId },
+            data: { haslo: newHashedPassword }
+        });
+
+        return { success: true, message: 'Twoje hasło zostało pomyślnie zmienione!' };
+    } catch (error) {
+        console.error('Błąd zmiany hasła:', error);
+        return { success: false, message: 'Wystąpił błąd podczas zmiany hasła.' };
+    }
 }

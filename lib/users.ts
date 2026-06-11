@@ -49,3 +49,15 @@ export async function getOperationalEmployees() {
         }
     });
 }
+
+export async function getUserById(id: number) {
+    return await prisma.pracownik.findUnique({
+        where: { id: id },
+        select: {
+            id: true,
+            imie: true,
+            nazwisko: true,
+            email: true,
+        }
+    });
+}

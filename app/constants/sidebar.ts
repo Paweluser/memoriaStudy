@@ -44,7 +44,7 @@ export const menuGroups: MenuGroup[] = [
 		links: [
 			{
 				label: 'Statystyki',
-				href: '/dashboard/analytics/statistics',
+				href: '/dashboard/statistics',
 				icon: BarChart2,
 			},
 		],
