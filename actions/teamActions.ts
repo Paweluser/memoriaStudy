@@ -26,3 +26,21 @@ export async function createTeam(data: TeamFormValues) {
 		return { success: false, message: 'Wystąpił błąd bazy danych.' };
 	}
 }
+
+export async function assignEmployeeToTeam(employeeId: number, teamId: number | null) {
+    try {
+        await prisma.pracownik.update({
+            where: { id: employeeId },
+            data: { zespol_id: teamId }
+        });
+
+        revalidatePath(`/dashboard/teams/${teamId}`);
+        revalidatePath('/dashboard/teams');
+        revalidatePath('/dashboard/employees');
+
+        return { success: true, message: 'Zaktualizowano przypisanie pracownika.' };
+    } catch (error) {
+        console.error('Błąd przypisywania pracownika:', error);
+        return { success: false, message: 'Nie udało się zaktualizować pracownika.' };
+    }
+}

@@ -1,7 +1,7 @@
 import TeamsTable from '@/app/components/Dashboard/Teams/TeamsTable';
 import PageHeader from '@/app/components/Dashboard/PageHeader';
 import { getAllTeams } from '@/lib/teams';
-import AddTeamDialog from '@/app/components/Dashboard/Teams/TeamsDialog';
+import AddTeamDialog from '@/app/components/Form/TeamsDialogForm';
 
 export default async function TeamsPage() {
 	const teams = await getAllTeams();
