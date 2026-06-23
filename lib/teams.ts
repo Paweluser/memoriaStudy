@@ -1,28 +1,28 @@
 import prisma from '@/lib/prisma';
 
 export async function getAllTeams() {
-	return await prisma.zespol.findMany({
-		orderBy: {
-			id: 'asc',
-		},
-		include: {
-			_count: {
-				select: { pracownik: true },
-			},
-		},
-	});
+    return await prisma.team.findMany({ 
+        orderBy: {
+            id: 'asc',
+        },
+        include: {
+            _count: {
+                select: { employees: true }, 
+            },
+        },
+    });
 }
 
 export async function getTeamById(id: number) {
-    return await prisma.zespol.findUnique({
+    return await prisma.team.findUnique({
         where: { id },
         include: {
-            pracownik: {
+            employees: { 
                 select: {
                     id: true,
-                    imie: true,
-                    nazwisko: true,
-                    rola: true,
+                    firstName: true, 
+                    lastName: true,  
+                    role: true,      
                 }
             }
         }
@@ -30,18 +30,18 @@ export async function getTeamById(id: number) {
 }
 
 export async function getAvailableEmployees() {
-    return await prisma.pracownik.findMany({
+    return await prisma.employee.findMany({ 
         where: {
-            zespol_id: null
+            teamId: null 
         },
         select: {
             id: true,
-            imie: true,
-            nazwisko: true,
-            rola: true,
+            firstName: true,
+            lastName: true,
+            role: true,
         },
         orderBy: {
-            nazwisko: 'asc'
+            lastName: 'asc' 
         }
     });
 }

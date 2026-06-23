@@ -1,26 +1,26 @@
-import prisma from './prisma';
+import prisma from './prisma'; 
 
 export async function getAllCeremonies() {
-  return await prisma.ceremonia.findMany({
+  return await prisma.ceremony.findMany({
     orderBy: {
       id: 'desc', 
     },
     include: {
-      zmarly: true,        
-      zleceniodawca: true, 
+      deceased: true,        
+      client: true, 
     },
   });
 }
 
 export async function getCeremonyById(id: number) {
-  return await prisma.ceremonia.findUnique({
+  return await prisma.ceremony.findUnique({
     where: { 
         id: id 
     },
     include: {
-      zmarly: true,
-      zleceniodawca: true,
-      zespol: true,
+      deceased: true,
+      client: true, 
+      team: true,
     },
   });
 }

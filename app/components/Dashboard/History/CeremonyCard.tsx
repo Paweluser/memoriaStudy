@@ -2,10 +2,10 @@ import { Calendar } from 'lucide-react';
 
 type CeremonyCardProps = {
     ceremony: {
-        data_pogrzebu: Date;
-        miejscowosc: string;
-        rodzaj_pochowku: string;
-        uwagi: string | null;
+        funeralDate: Date;
+        city: string;
+        burialType: string;
+        notes: string | null;
     };
 };
 
@@ -18,19 +18,19 @@ export default function CeremonyCard({ ceremony }: CeremonyCardProps) {
             <ul className="space-y-3">
                 <li>
                     <span className="font-medium">Data:</span>{' '}
-                    {new Date(ceremony.data_pogrzebu).toLocaleDateString('pl-PL')}
+                    {new Date(ceremony.funeralDate).toLocaleDateString('pl-PL')}
                 </li>
                 <li>
                     <span className="font-medium">Miejscowość:</span>{' '}
-                    {ceremony.miejscowosc}
+                    {ceremony.city}
                 </li>
                 <li>
                     <span className="font-medium">Rodzaj pochówku:</span>{' '}
-                    {ceremony.rodzaj_pochowku}
+                    {ceremony.burialType}
                 </li>
                 <li>
                     <span className="font-medium">Uwagi:</span>{' '}
-                    {ceremony.uwagi || 'Brak uwag'}
+                    {ceremony.notes || 'Brak uwag'}
                 </li>
             </ul>
         </div>

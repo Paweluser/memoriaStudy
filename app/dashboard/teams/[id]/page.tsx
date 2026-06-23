@@ -28,7 +28,7 @@ export default async function TeamDetailsPage({ params }: PageProps) {
     return (
         <div className="p-4 md:p-6 w-full max-w-7xl mx-auto">
             <PageHeader
-                title={`ZESPÓŁ: ${team.nazwa_zespolu.toUpperCase()}`}
+                title={`ZESPÓŁ: ${team.teamName.toUpperCase()}`}
                 description="Zarządzanie składem osobowym"
             />
             

@@ -3,7 +3,7 @@ import prisma from './prisma';
 import { Lucia } from 'lucia';
 import { cookies } from 'next/headers';
 
-const adapter = new PrismaAdapter(prisma.session, prisma.pracownik);
+const adapter = new PrismaAdapter(prisma.session, prisma.employee);
 
 export const lucia = new Lucia(adapter, {
 	sessionCookie: {

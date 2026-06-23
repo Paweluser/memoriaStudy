@@ -15,7 +15,7 @@ export default async function DashboardPage() {
         <div className="p-4 md:p-6 w-full max-w-7xl mx-auto">
             <div className="p-8 bg-white rounded-xl shadow-sm border border-gray-100 max-w-4xl">
                 <h2 className="text-3xl font-bold text-gray-900 mb-3">
-                    Dzień dobry, {currentUser?.imie || 'Pracowniku'}!
+                    Dzień dobry, {currentUser?.firstName || 'Pracowniku'}!
                 </h2>
                 <p>
                     Witaj w systemie Memoria. Wybierz opcję z menu po lewej stronie, aby rozpocząć pracę.

@@ -4,9 +4,9 @@ import { Trash2 } from 'lucide-react';
 
 type Employee = {
     id: number;
-    imie: string;
-    nazwisko: string;
-    rola: string;
+    firstName: string;
+    lastName: string;
+    role: string;
 };
 
 type TeamMembersTableProps = {
@@ -31,10 +31,10 @@ export default function TeamMembersTable({ members, onRemoveMember }: TeamMember
                         {members.map((emp) => (
                             <tr key={emp.id} className="border-b last:border-0">
                                 <td className="p-4 font-bold">#{emp.id}</td>
-                                <td className="p-4 font-medium">{emp.imie} {emp.nazwisko}</td>
+                                <td className="p-4 font-medium">{emp.firstName} {emp.lastName}</td>
                                 <td className="p-4">
                                     <span className="px-2 py-1 rounded-full text-xs font-semibold bg-(--role-bg) text-(--role-text)">
-                                        {emp.rola}
+                                        {emp.role}
                                     </span>
                                 </td>
                                 <td className="p-4">
@@ -44,7 +44,7 @@ export default function TeamMembersTable({ members, onRemoveMember }: TeamMember
                                         title="Usuń z tego zespołu"
                                     >
                                         <Trash2 className="w-4 h-4" />
-                                        <span>Wypisz</span>
+                                        <span className="ml-1">Wypisz</span>
                                     </button>
                                 </td>
                             </tr>

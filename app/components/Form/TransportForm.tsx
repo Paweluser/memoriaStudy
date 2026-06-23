@@ -13,8 +13,8 @@ import { useRouter } from 'next/navigation';
 
 type Employee = {
     id: number;
-    imie: string;
-    nazwisko: string;
+    firstName: string;
+    lastName: string;
 };
 
 type TransportFormProps = {
@@ -61,18 +61,18 @@ export default function TransportForm({ employees }: TransportFormProps) {
                     <div className="flex-1 w-full">
                         <InputForm
                             label="Odbiór"
-                            name="transport_z"
+                            name="transportFrom"
                             register={register}
-                            error={errors.transport_z}
+                            error={errors.transportFrom}
                             placeholder="np. Szpital Bródnowski"
                         />
                     </div>
                     <div className="flex-1 w-full">
                         <InputForm
                             label="Transport docelowy"
-                            name="transport_do"
+                            name="transportTo"
                             register={register}
-                            error={errors.transport_do}
+                            error={errors.transportTo}
                             placeholder="np. Chłodnia główna"
                         />
                     </div>
@@ -87,18 +87,18 @@ export default function TransportForm({ employees }: TransportFormProps) {
                     <div className="flex-1 w-full flex flex-col">
                         <label className="mb-1 text-sm font-medium">Kierowca</label>
                         <select
-                            {...register('kierownik_id', { valueAsNumber: true })}
+                            {...register('managerId', { valueAsNumber: true })}
                             className="border rounded p-2 bg-white">
                             <option value="">Wybierz pracownika</option>
                             {employees.map((emp) => (
                                 <option key={emp.id} value={emp.id}>
-                                    {emp.imie} {emp.nazwisko}
+                                    {emp.firstName} {emp.lastName}
                                 </option>
                             ))}
                         </select>
-                        {errors.kierownik_id && (
+                        {errors.managerId && (
                             <span className="text-(--error-color) text-sm mt-1">
-                                {errors.kierownik_id.message}
+                                {errors.managerId.message}
                             </span>
                         )}
                     </div>
@@ -106,18 +106,18 @@ export default function TransportForm({ employees }: TransportFormProps) {
                     <div className="flex-1 w-full flex flex-col">
                         <label className="mb-1 text-sm font-medium">Pomocnik</label>
                         <select
-                            {...register('pracownik_id', { valueAsNumber: true })}
+                            {...register('employeeId', { valueAsNumber: true })}
                             className="border rounded p-2 bg-white">
                             <option value="">Wybierz pracownika</option>
                             {employees.map((emp) => (
                                 <option key={emp.id} value={emp.id}>
-                                    {emp.imie} {emp.nazwisko}
+                                    {emp.firstName} {emp.lastName}
                                 </option>
                             ))}
                         </select>
-                        {errors.pracownik_id && (
+                        {errors.employeeId && (
                             <span className="text-(--error-color) text-sm mt-1">
-                                {errors.pracownik_id.message}
+                                {errors.employeeId.message}
                             </span>
                         )}
                     </div>
@@ -132,9 +132,9 @@ export default function TransportForm({ employees }: TransportFormProps) {
                     <div className="w-full md:w-[calc(50%-0.5rem)]">
                         <InputForm
                             label="Numer telefonu zleceniodawcy"
-                            name="numer_tel_zleceniodawcy"
+                            name="clientPhoneNumber"
                             register={register}
-                            error={errors.numer_tel_zleceniodawcy}
+                            error={errors.clientPhoneNumber}
                             placeholder="+48 000 000 000"
                         />
                     </div>

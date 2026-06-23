@@ -1,62 +1,62 @@
 import prisma from './prisma';
 
 export async function createUser(
-	firstName: string,
-	lastName: string,
-	email: string,
-	haslo: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string, 
 ) {
-	return await prisma.pracownik.create({
-		data: {
-			imie: firstName,
-			nazwisko: lastName,
-			email: email,
-			haslo: haslo,
-			rola: 'PRACOWNIK',
-		},
-	});
+    return await prisma.employee.create({ 
+        data: {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+            role: 'EMPLOYEE', 
+        },
+    });
 }
 
 export async function getUserByEmail(email: string) {
-	return await prisma.pracownik.findUnique({
-		where: { email: email },
-	});
+    return await prisma.employee.findUnique({
+        where: { email: email },
+    });
 }
 
 export async function getEmployees() {
-  return await prisma.pracownik.findMany({
+  return await prisma.employee.findMany({
     include: {
-      zespol: true, 
+      team: true, 
     },
     orderBy: {
-      nazwisko: 'asc', 
+      lastName: 'asc', 
     },
   });
 }
 
 export async function getOperationalEmployees() {
-    return await prisma.pracownik.findMany({
+    return await prisma.employee.findMany({
         where: {
-            rola: 'PRACOWNIK',
+            role: 'EMPLOYEE', 
         },
         select: {
             id: true,
-            imie: true,
-            nazwisko: true,
+            firstName: true,
+            lastName: true,
         },
         orderBy: {
-            nazwisko: 'asc',
+            lastName: 'asc',
         }
     });
 }
 
 export async function getUserById(id: number) {
-    return await prisma.pracownik.findUnique({
+    return await prisma.employee.findUnique({
         where: { id: id },
         select: {
             id: true,
-            imie: true,
-            nazwisko: true,
+            firstName: true,
+            lastName: true,
             email: true,
         }
     });

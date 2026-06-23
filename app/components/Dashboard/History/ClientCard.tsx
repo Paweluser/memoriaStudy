@@ -2,15 +2,15 @@ import { Contact } from 'lucide-react';
 
 type ClientCardProps = {
     client: {
-        imie: string;
-        nazwisko: string;
-        telefon: string;
-        ulica: string | null;
-        numer_domu: string | null;
-        kod_pocztowy: string | null;
-        miejscowosc: string | null;
+        firstName: string;
+        lastName: string;
+        phone: string;
+        street: string | null;
+        houseNumber: string | null;
+        zipCode: string | null;
+        city: string | null;
         nip: string | null;
-        nazwa_firmy: string | null;
+        companyName: string | null;
     } | null;
 };
 
@@ -24,25 +24,25 @@ export default function ClientCard({ client }: ClientCardProps) {
                 <ul className="space-y-3">
                     <li>
                         <span className="font-medium">Imię i nazwisko:</span>{' '}
-                        {client.imie} {client.nazwisko}
+                        {client.firstName} {client.lastName}
                     </li>
                     <li>
                         <span className="font-medium">Telefon:</span>{' '}
-                        {client.telefon}
+                        {client.phone}
                     </li>
-                    {(client.ulica || client.miejscowosc) && (
+                    {(client.street || client.city) && (
                         <li>
                             <span className="font-medium">Adres:</span>{' '}
                             {[
-                                [client.ulica, client.numer_domu].filter(Boolean).join(' '),
-                                [client.kod_pocztowy, client.miejscowosc].filter(Boolean).join(' ')
+                                [client.street, client.houseNumber].filter(Boolean).join(' '),
+                                [client.zipCode, client.city].filter(Boolean).join(' ')
                             ].filter(Boolean).join(', ')}
                         </li>
                     )}
-                    {client.nazwa_firmy && (
+                    {client.companyName && (
                         <li>
                             <span className="font-medium">Firma:</span>{' '}
-                            {client.nazwa_firmy} {client.nip ? `(NIP: ${client.nip})` : ''}
+                            {client.companyName} {client.nip ? `(NIP: ${client.nip})` : ''}
                         </li>
                     )}
                 </ul>
@@ -50,5 +50,5 @@ export default function ClientCard({ client }: ClientCardProps) {
                 <p className="text-sm">Brak powiązanych danych.</p>
             )}
         </div>
-    );
+    ); 
 }

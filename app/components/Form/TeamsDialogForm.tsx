@@ -66,13 +66,13 @@ export default function AddTeamDialog() {
                                     Nazwa zespołu
                                 </label>
                                 <input
-                                    {...register('nazwa_zespolu')}
+                                    {...register('teamName')}
                                     type="text"
                                     className="w-full border rounded-md p-2.5 text-sm"
                                 />
-                                {errors.nazwa_zespolu && (
+                                {errors.teamName && (
                                     <span className="text-(--error-color) text-xs mt-1 block">
-                                        {errors.nazwa_zespolu.message}
+                                        {errors.teamName.message}
                                     </span>
                                 )}
                             </div>

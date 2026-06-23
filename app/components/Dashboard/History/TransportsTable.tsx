@@ -22,27 +22,27 @@ export default function TransportsTable({
                 </thead>
                 <tbody className="text-sm">
                     {data.map((transport) => {
-                        const kierowca = transport.pracownik_zlecenie_przewozu_kierownik_idTopracownik;
-                        const pomocnik = transport.pracownik_zlecenie_przewozu_pracownik_idTopracownik;
+                        const kierowca = transport.manager; 
+                        const pomocnik = transport.assistant; 
 
                         return (
                             <tr key={transport.id} className="border-b last:border-0">
                                 <td className="p-4">
-                                    <span className="font-medium">{transport.transport_z}</span>
+                                    <span className="font-medium">{transport.transportFrom}</span>
                                     <span className="mx-2 text-gray-400">→</span>
-                                    <span className="font-medium">{transport.transport_do}</span>
+                                    <span className="font-medium">{transport.transportTo}</span>
                                 </td>
                                 <td className="p-4 font-medium">
                                     {kierowca
-                                        ? `${kierowca.imie} ${kierowca.nazwisko}`
+                                        ? `${kierowca.firstName} ${kierowca.lastName}`
                                         : emptyData}
                                 </td>
                                 <td className="p-4">
                                     {pomocnik
-                                        ? `${pomocnik.imie} ${pomocnik.nazwisko}`
+                                        ? `${pomocnik.firstName} ${pomocnik.lastName}`
                                         : emptyData}
                                 </td>
-                                <td className="p-4">{transport.numer_tel_zleceniodawcy || emptyData}</td>
+                                <td className="p-4">{transport.clientPhoneNumber || emptyData}</td>
                             </tr>
                         );
                     })}

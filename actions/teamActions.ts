@@ -5,33 +5,33 @@ import { teamSchema, TeamFormValues } from '@/lib/validations/teams';
 import { revalidatePath } from 'next/cache';
 
 export async function createTeam(data: TeamFormValues) {
-	const parsed = teamSchema.safeParse(data);
+    const parsed = teamSchema.safeParse(data);
 
-	if (!parsed.success) {
-		return { success: false, message: 'Nieprawidłowe dane formularza.' };
-	}
+    if (!parsed.success) {
+        return { success: false, message: 'Nieprawidłowe dane formularza.' };
+    }
 
-	try {
-		await prisma.zespol.create({
-			data: {
-				nazwa_zespolu: parsed.data.nazwa_zespolu,
-			},
-		});
+    try {
+        await prisma.team.create({
+            data: {
+                teamName: parsed.data.teamName, 
+            },
+        });
 
-		revalidatePath('/dashboard/teams');
+        revalidatePath('/dashboard/teams');
 
-		return { success: true, message: 'Zespół został pomyślnie dodany.' };
-	} catch (error) {
-		console.error('Błąd podczas tworzenia zespołu:', error);
-		return { success: false, message: 'Wystąpił błąd bazy danych.' };
-	}
+        return { success: true, message: 'Zespół został pomyślnie dodany.' };
+    } catch (error) {
+        console.error('Błąd podczas tworzenia zespołu:', error);
+        return { success: false, message: 'Wystąpił błąd bazy danych.' };
+    }
 }
 
 export async function assignEmployeeToTeam(employeeId: number, teamId: number | null) {
     try {
-        await prisma.pracownik.update({
+        await prisma.employee.update({
             where: { id: employeeId },
-            data: { zespol_id: teamId }
+            data: { teamId: teamId } 
         });
 
         revalidatePath(`/dashboard/teams/${teamId}`);
