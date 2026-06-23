@@ -52,7 +52,7 @@ export const menuGroups: MenuGroup[] = [
 	{
 		title: 'Finanse',
 		links: [
-			{ label: 'Faktury', href: '/dashboard/finance/invoices', icon: FileText },
+			{ label: 'Faktury', href: '/dashboard/invoices', icon: FileText },
 		],
 	},
 	{

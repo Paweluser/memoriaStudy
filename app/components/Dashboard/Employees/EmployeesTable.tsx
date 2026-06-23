@@ -21,7 +21,6 @@ export default function EmployeesTable({
 			<table className="w-full text-left">
 				<thead>
 					<tr className="bg-gray-50 text-xs uppercase border-b">
-						<th className="p-4 font-medium">ID</th>
 						<th className="p-4 font-medium">Imię i Nazwisko</th>
 						<th className="p-4 font-medium">Email</th>
 						<th className="p-4 font-medium">Rola</th>
@@ -31,7 +30,6 @@ export default function EmployeesTable({
 				<tbody className="text-sm">
 					{data.map((pracownik) => (
 						<tr key={pracownik.id} className="border-b last:border-0">
-							<td className="p-4 font-bold">#{pracownik.id}</td>
 							<td className="p-4 font-medium">
 								{pracownik.imie} {pracownik.nazwisko}
 							</td>

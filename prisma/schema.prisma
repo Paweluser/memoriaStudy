@@ -1,126 +1,129 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma" 
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-
-model ceremonia {
-  id                 Int                 @id @default(autoincrement())
-  zleceniodawca_id   Int?
-  zmarly_id          Int?                @unique
-  zespol_id          Int?
-  miejscowosc        String              @db.VarChar(100)
-  data_pogrzebu      DateTime            @db.Date
-  godzina_pogrzebu   DateTime?           @db.Time(6)
-  godzina_wniesienia DateTime?           @db.Time(6)
-  godzina_zbiorki    DateTime?           @db.Time(6)
-  rodzaj_pochowku    String              @db.VarChar(20)
-  uwagi              String?
-  zespol             zespol?             @relation(fields: [zespol_id], references: [id], onUpdate: NoAction)
-  zleceniodawca      zleceniodawca?      @relation(fields: [zleceniodawca_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  zmarly             zmarly?             @relation(fields: [zmarly_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  faktura            faktura?
-  kosztorys_pozycja  kosztorys_pozycja[]
-
-  @@index([data_pogrzebu], map: "idx_ceremonia_data")
-  @@index([miejscowosc], map: "idx_ceremonia_miejscowosc")
+model Client {
+  id          Int        @id @default(autoincrement())
+  firstName   String     @db.VarChar(50)
+  lastName    String     @db.VarChar(50)
+  phone       String     @db.VarChar(15)
+  street      String?    @db.VarChar(100)
+  houseNumber String?    @db.VarChar(10)
+  zipCode     String?    @db.VarChar(10)
+  city        String?    @db.VarChar(100)
+  nip         String?    @db.VarChar(10)
+  companyName String?    @db.VarChar(255)
+  ceremonies  Ceremony[]
 }
 
-model faktura {
-  id                Int        @id @default(autoincrement())
-  ceremonia_id      Int?       @unique
-  numer_fv          String     @unique @db.VarChar(50)
-  data_wystawienia  DateTime   @db.Date
-  termin_platnosci  DateTime   @db.Date
-  status_platnosci  String     @default("OCZEKUJĄCA") @db.VarChar(30)
-  kwota_calkowita   Decimal    @db.Decimal(10, 2)
-  sciezka_pliku_pdf String?    @db.VarChar(500)
-  ceremonia         ceremonia? @relation(fields: [ceremonia_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+model Deceased {
+  id        Int       @id @default(autoincrement())
+  firstName String    @db.VarChar(50)
+  lastName  String    @db.VarChar(50)
+  pesel     String    @unique @db.Char(11)
+  birthDate DateTime  @db.Date
+  deathDate DateTime  @db.Date
+  insured   Boolean
+  ceremony  Ceremony?
 }
 
-model katalog_produktow {
-  id                Int                 @id @default(autoincrement())
-  nazwa             String              @db.VarChar(255)
-  kategoria         String              @db.VarChar(50)
-  cena_domyslna     Decimal             @db.Decimal(10, 2)
-  stan_magazynowy   Int?                @default(0)
-  kosztorys_pozycja kosztorys_pozycja[]
+model Team {
+  id         Int        @id @default(autoincrement())
+  teamName   String     @db.VarChar(100)
+  employees  Employee[]
+  ceremonies Ceremony[]
 }
 
-model kosztorys_pozycja {
-  id                Int                @id @default(autoincrement())
-  ceremonia_id      Int?
-  produkt_id        Int?
-  cena_zakupiona    Decimal            @db.Decimal(10, 2)
-  ilosc             Int                @default(1)
-  ceremonia         ceremonia?         @relation(fields: [ceremonia_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  katalog_produktow katalog_produktow? @relation(fields: [produkt_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+model ProductCatalog {
+  id            Int            @id @default(autoincrement())
+  name          String         @db.VarChar(255)
+  category      String         @db.VarChar(50)
+  defaultPrice  Decimal        @db.Decimal(10, 2)
+  stockQuantity Int?           @default(0)
+  estimateItems EstimateItem[]
 }
 
-model pracownik {
-  id                                                          Int                 @id @default(autoincrement())
-  zespol_id                                                   Int?
-  imie                                                        String              @db.VarChar(50)
-  nazwisko                                                    String              @db.VarChar(50)
-  email                                                       String              @unique @db.VarChar(255)
-  haslo                                                       String              @db.VarChar(255)
-  rola                                                        String              @default("PRACOWNIK") @db.VarChar(20)
-  zespol                                                      zespol?             @relation(fields: [zespol_id], references: [id], onUpdate: NoAction)
-  zlecenie_przewozu_zlecenie_przewozu_kierownik_idTopracownik zlecenie_przewozu[] @relation("zlecenie_przewozu_kierownik_idTopracownik")
-  zlecenie_przewozu_zlecenie_przewozu_pracownik_idTopracownik zlecenie_przewozu[] @relation("zlecenie_przewozu_pracownik_idTopracownik")
-  session session[]
+model Employee {
+  id                 Int              @id @default(autoincrement())
+  teamId             Int?
+  firstName          String           @db.VarChar(50)
+  lastName           String           @db.VarChar(50)
+  email              String           @unique @db.VarChar(255)
+  password           String           @db.VarChar(255)
+  role               String           @default("EMPLOYEE") @db.VarChar(20)
+  
+  team               Team?            @relation(fields: [teamId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  sessions           Session[]
+  
+  // Koniec z "zlecenie_przewozu_zlecenie_przewozu_kierownik_idTopracownik"!
+  managedTransports  TransportOrder[] @relation("ManagerToTransport")
+  assistedTransports TransportOrder[] @relation("EmployeeToTransport")
 }
 
-model zespol {
-  id            Int         @id @default(autoincrement())
-  nazwa_zespolu String      @db.VarChar(100)
-  ceremonia     ceremonia[]
-  pracownik     pracownik[]
-}
-
-model zlecenie_przewozu {
-  id                                                  Int        @id @default(autoincrement())
-  kierownik_id                                        Int?
-  pracownik_id                                        Int?
-  transport_z                                         String     @db.VarChar(255)
-  transport_do                                        String     @db.VarChar(255)
-  numer_tel_zleceniodawcy                             String     @db.VarChar(15)
-  pracownik_zlecenie_przewozu_kierownik_idTopracownik pracownik? @relation("zlecenie_przewozu_kierownik_idTopracownik", fields: [kierownik_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
-  pracownik_zlecenie_przewozu_pracownik_idTopracownik pracownik? @relation("zlecenie_przewozu_pracownik_idTopracownik", fields: [pracownik_id], references: [id], onUpdate: NoAction)
-}
-
-model zleceniodawca {
-  id           Int         @id @default(autoincrement())
-  imie         String      @db.VarChar(50)
-  nazwisko     String      @db.VarChar(50)
-  telefon      String      @db.VarChar(15)
-  ulica        String?     @db.VarChar(100)
-  numer_domu   String?     @db.VarChar(10)
-  kod_pocztowy String?     @db.VarChar(10)
-  miejscowosc  String?     @db.VarChar(100)
-  nip          String?     @db.VarChar(10)
-  nazwa_firmy  String?     @db.VarChar(255)
-  ceremonia    ceremonia[]
-}
-
-model zmarly {
-  id             Int        @id @default(autoincrement())
-  imie           String     @db.VarChar(50)
-  nazwisko       String     @db.VarChar(50)
-  pesel          String     @unique @db.Char(11)
-  data_urodzenia DateTime   @db.Date
-  data_smierci   DateTime   @db.Date
-  ubezpieczony   Boolean
-  ceremonia      ceremonia?
-}
-
-model session {
-  id        String    @id
+model Session {
+  id        String   @id
   userId    Int
   expiresAt DateTime
-  pracownik pracownik @relation(fields: [userId], references: [id], onDelete: Cascade)
+  employee  Employee @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Ceremony {
+  id             Int            @id @default(autoincrement())
+  clientId       Int?
+  deceasedId     Int?           @unique
+  teamId         Int?
+  city           String         @db.VarChar(100)
+  funeralDate    DateTime       @db.Date
+  funeralTime    DateTime?      @db.Time(6)
+  bringingInTime DateTime?      @db.Time(6)
+  gatheringTime  DateTime?      @db.Time(6)
+  burialType     String         @db.VarChar(20)
+  notes          String?
+  
+  client         Client?        @relation(fields: [clientId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  deceased       Deceased?      @relation(fields: [deceasedId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  team           Team?          @relation(fields: [teamId], references: [id], onUpdate: NoAction)
+  invoice        Invoice?
+  estimateItems  EstimateItem[]
+}
+
+model EstimateItem {
+  id             Int             @id @default(autoincrement())
+  ceremonyId     Int?
+  productId      Int?
+  purchasedPrice Decimal         @db.Decimal(10, 2)
+  quantity       Int             @default(1)
+  
+  ceremony       Ceremony?       @relation(fields: [ceremonyId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product        ProductCatalog? @relation(fields: [productId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+}
+
+model Invoice {
+  id            Int       @id @default(autoincrement())
+  ceremonyId    Int?      @unique
+  invoiceNumber String    @unique @db.VarChar(50)
+  issueDate     DateTime  @db.Date
+  dueDate       DateTime  @db.Date
+  paymentStatus String    @default("PENDING") @db.VarChar(30)
+  totalAmount   Decimal   @db.Decimal(10, 2)
+  pdfFilePath   String?   @db.VarChar(500)
+  
+  ceremony      Ceremony? @relation(fields: [ceremonyId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model TransportOrder {
+  id                Int       @id @default(autoincrement())
+  managerId         Int?
+  employeeId        Int?
+  transportFrom     String    @db.VarChar(255)
+  transportTo       String    @db.VarChar(255)
+  clientPhoneNumber String    @db.VarChar(15)
+  
+  manager           Employee? @relation("ManagerToTransport", fields: [managerId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  assistant         Employee? @relation("EmployeeToTransport", fields: [employeeId], references: [id], onUpdate: NoAction)
 }

@@ -16,7 +16,6 @@ export default function CeremoniesTable({
 			<table className="w-full text-left">
 				<thead>
 					<tr className="bg-gray-50 text-xs uppercase border-b">
-						<th className="p-4 font-medium">ID</th>
 						<th className="p-4 font-medium">Zmarły</th>
 						<th className="p-4 font-medium">Zleceniodawca</th>
 						<th className="p-4 font-medium">Data pogrzebu</th>
@@ -29,7 +28,6 @@ export default function CeremoniesTable({
 				<tbody className="text-sm">
 					{data.map((ceremony) => (
 						<tr key={ceremony.id} className="border-b last:border-0">
-							<td className="p-4 font-bold">#{ceremony.id}</td>
 							<td className="p-4 font-medium">
 								{ceremony.zmarly
 									? `${ceremony.zmarly.imie} ${ceremony.zmarly.nazwisko}`
